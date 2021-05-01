@@ -414,6 +414,9 @@ api.add_resource(All_Tracks, '/tracks')
 api.add_resource(Tracks_By_Id, '/tracks/<string:track_id>')
 api.add_resource(Play_Track, '/tracks/<string:track_id>/play')
 
+@app.route('/')
+def index():
+    return "<h1>Tarea 2 - Taller de integración</h1>"
 
 if __name__=='__main__':
 
