@@ -416,7 +416,7 @@ api.add_resource(Play_Track, '/tracks/<string:track_id>/play')
 
 @app.route('/')
 def index():
-    return "<h1>Tarea 2 - Taller de integración</h1><br><img src='https://www.killyourdarlings.com.au/wp-content/uploads/2017/04/pusheen4.gif'>"
+    return "<div style="margin: 10px auto 20px; display: block;"><img src='https://www.killyourdarlings.com.au/wp-content/uploads/2017/04/pusheen4.gif'></div>"
 
 if __name__=='__main__':
 
