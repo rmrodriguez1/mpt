@@ -136,10 +136,10 @@ class Tracks(db.Model):
         return {'id': self.id,
                 'album_id': self.artist_id,
                 'name': self.name,
-                'duration': self.genre,
+                'duration': self.duration,
                 'times_played': self.times_played,
                 'artist': self.artist,
-                'album': self.tracks,
+                'album': self.album,
                 'self': self.self_}   
  
     # Method to find the query movie is existing or not
@@ -320,7 +320,7 @@ class Albums_Tracks(Resource):
 
     def post(self, album_id):
 
-        args = Artists_Albums.parser.parse_args()
+        args = Albums_Tracks.parser.parse_args()
 
         if not Albums.find_by_id(album_id):
             return 'album no existe', 422
@@ -418,7 +418,5 @@ api.add_resource(Play_Track, '/tracks/<string:track_id>/play')
 def index():
     return "<div style='margin:10px auto 20px; display: block;'><img src='https://www.killyourdarlings.com.au/wp-content/uploads/2017/04/pusheen4.gif'></div>"
 
-if __name__=='__main__':
-
-    # Ejecutamos la aplicacion
+if __name__ == '__main__':
     app.run()
