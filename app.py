@@ -334,7 +334,7 @@ class Albums_Tracks(Resource):
         if not Albums.find_by_id(album_id):
             return 'album no existe', 422
 
-        if not args['name']:
+        if not args['name'] or args['duration'] is None:
             return 'input invalido', 400
 
         id = b64encode((args['name'] + ':' + album_id).encode()).decode('utf-8')[:22]
