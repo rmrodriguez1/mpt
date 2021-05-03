@@ -187,7 +187,7 @@ class All_Artists(Resource):
     def get(self): 
         return list(map(lambda x: x.json(), Artists.query.all())), 200
 
-def post(self): 
+    def post(self): 
 
         args = All_Artists.parser.parse_args()
         if not args['name'] or not args['age']:
