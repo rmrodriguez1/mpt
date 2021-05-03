@@ -249,16 +249,19 @@ class Artists_Albums(Resource):
 
         if not Artists.find_by_id(artist_id):
             return 'artista no existe', 422
-        
+
+        return args, 200
         if not args['name'] or not args['genre']:
             return 'input invalido', 400
-        
+
         id = b64encode((args['name'] + ':' + artist_id).encode()).decode('utf-8')[:22]
-        if Albums.find_by_id(id):
-            return 'album ya existe', 409
-        
+
+        item = Albums.find_by_id(id)
+        if item:
+            return item.json(), 409
+
         item = Albums(artist_id, args['name'], args['genre'])
-        
+
         item.save_to()
         return item.json(), 201
 
@@ -331,17 +334,20 @@ class Albums_Tracks(Resource):
 
         if not Albums.find_by_id(album_id):
             return 'album no existe', 422
-        
+
         if not args['name']:
             return 'input invalido', 400
-        
+
         id = b64encode((args['name'] + ':' + album_id).encode()).decode('utf-8')[:22]
-        if Tracks.find_by_id(id):
-            return 'cancion ya existe', 409
-        
+
+        item = Tracks.find_by_id(id)
+
+        if item:
+            return item.json(), 409
+
         artist_id = Albums.find_by_id(album_id).artist_id
         item = Tracks(artist_id, album_id, args['name'], args['duration'])
-        
+
         item.save_to()
         return item.json(), 201
 
