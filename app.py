@@ -24,11 +24,11 @@ db = SQLAlchemy()
 class Artists(db.Model):
  
     id     = db.Column(db.String(22), primary_key=True)    
-    name   = db.Column(db.String(50), unique=True, nullable=True)                                               
+    name   = db.Column(db.String(50), unique=True, nullable=False)                                               
     age    = db.Column(db.Integer, unique=False, nullable=True)
-    albums = db.Column(db.String(100), unique=False, nullable=True)
-    tracks = db.Column(db.String(100), unique=False, nullable=True)
-    self_  = db.Column(db.String(100), unique=False, nullable=True)
+    albums = db.Column(db.String(100), unique=False, nullable=False)
+    tracks = db.Column(db.String(100), unique=False, nullable=False)
+    self_  = db.Column(db.String(100), unique=False, nullable=False)
     
     def __init__(self, name, age):
         self.id = b64encode(name.encode()).decode('utf-8')[:22]     
@@ -66,12 +66,12 @@ class Artists(db.Model):
 class Albums(db.Model):
 
     id        = db.Column(db.String(22), primary_key=True)    
-    artist_id = db.Column(db.String(22), unique=True, nullable=True)
-    name      = db.Column(db.String(50), unique=False, nullable=True)
-    genre     = db.Column(db.String(50), unique=False, nullable=True)
-    artist    = db.Column(db.String(100), unique=False, nullable=True)
-    tracks    = db.Column(db.String(100), unique=False, nullable=True)
-    self_     = db.Column(db.String(100), unique=False, nullable=True)
+    artist_id = db.Column(db.String(22), unique=True, nullable=False)
+    name      = db.Column(db.String(50), unique=False, nullable=False)
+    genre     = db.Column(db.String(50), unique=False, nullable=False)
+    artist    = db.Column(db.String(100), unique=False, nullable=False)
+    tracks    = db.Column(db.String(100), unique=False, nullable=False)
+    self_     = db.Column(db.String(100), unique=False, nullable=False)
     
     def __init__(self, artist_id, name, genre):
         self.artist_id = artist_id
@@ -115,14 +115,14 @@ class Albums(db.Model):
 class Tracks(db.Model):
  
     id           = db.Column(db.String(22), primary_key=True)
-    artist_id    = db.Column(db.String(22), unique=True, nullable=True)
-    album_id     = db.Column(db.String(22), unique=True, nullable=True)
-    name         = db.Column(db.String(50), unique=False, nullable=True)
+    artist_id    = db.Column(db.String(22), unique=True, nullable=False)
+    album_id     = db.Column(db.String(22), unique=True, nullable=False)
+    name         = db.Column(db.String(50), unique=False, nullable=False)
     duration     = db.Column(db.Float, unique=False, nullable=True)
     times_played = db.Column(db.Integer, unique=False, nullable=True)
-    artist       = db.Column(db.String(100), unique=False, nullable=True)
-    album        = db.Column(db.String(100), unique=False, nullable=True)
-    self_        = db.Column(db.String(100), unique=False, nullable=True)
+    artist       = db.Column(db.String(100), unique=False, nullable=False)
+    album        = db.Column(db.String(100), unique=False, nullable=False)
+    self_        = db.Column(db.String(100), unique=False, nullable=False)
     
     def __init__(self, artist_id, album_id, name, duration):
         self.artist_id = artist_id
@@ -193,11 +193,14 @@ class All_Artists(Resource):
         if not args['name'] or not args['age']:
             return 'input invalido', 400
         id = b64encode(args['name'].encode()).decode('utf-8')[:22]
-        if Artists.find_by_id(id):
-            return 'artista ya existe', 409
-        
+
+        item = Artists.find_by_id(id)
+
+        if item:
+            return item, 409
+
         item = Artists(args['name'], args['age'])
-        
+
         item.save_to()
         return item.json(), 201
 
