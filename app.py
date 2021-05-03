@@ -3,6 +3,10 @@ from flask_restful import Resource, reqparse, Api
 from flask_sqlalchemy import SQLAlchemy
 from base64 import b64encode
 
+#################################################################################################################
+#Código basado en https://medium.com/@ashiqgiga07/deploying-rest-api-based-flask-app-on-heroku-part-1-cb43a14c50c
+#################################################################################################################
+
 app = Flask(__name__)
 api = Api(app)
 
@@ -21,7 +25,7 @@ class Artists(db.Model):
  
     id     = db.Column(db.String(22), primary_key=True)    
     name   = db.Column(db.String(50), unique=True, nullable=False)                                               
-    age    = db.Column(db.Integer, unique=False, nullable=False)
+    age    = db.Column(db.Integer, unique=False, nullable=True)
     albums = db.Column(db.String(100), unique=False, nullable=False)
     tracks = db.Column(db.String(100), unique=False, nullable=False)
     self_  = db.Column(db.String(100), unique=False, nullable=False)
@@ -114,8 +118,8 @@ class Tracks(db.Model):
     artist_id    = db.Column(db.String(22), unique=True, nullable=False)
     album_id     = db.Column(db.String(22), unique=True, nullable=False)
     name         = db.Column(db.String(50), unique=False, nullable=False)
-    duration     = db.Column(db.Float, unique=False, nullable=False)
-    times_played = db.Column(db.Integer, unique=False, nullable=False)
+    duration     = db.Column(db.Float, unique=False, nullable=True)
+    times_played = db.Column(db.Integer, unique=False, nullable=True)
     artist       = db.Column(db.String(100), unique=False, nullable=False)
     album        = db.Column(db.String(100), unique=False, nullable=False)
     self_        = db.Column(db.String(100), unique=False, nullable=False)
