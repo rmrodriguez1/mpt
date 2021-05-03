@@ -374,7 +374,7 @@ class Tracks_By_Id(Resource):
 
     def delete(self, track_id):
 
-        item = Albums.find_by_id(album_id)
+        item = Tracks.find_by_id(track_id)
 
         if not item:
             return 'cancion no encontrada', 404
