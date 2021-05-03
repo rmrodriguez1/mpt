@@ -250,7 +250,6 @@ class Artists_Albums(Resource):
         if not Artists.find_by_id(artist_id):
             return 'artista no existe', 422
 
-        return args, 200
         if not args['name'] or not args['genre']:
             return 'input invalido', 400
 
